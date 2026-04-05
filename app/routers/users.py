@@ -10,7 +10,9 @@ class Roles:
     ADMIN = "admin"
     ANALYST = "analyst"
     USER = "user"
+
 router = APIRouter()
+#finding roles of current user to allows role based access
 def require_role(allowed_roles: list):
     def role_checker(user: dict = Depends(get_current_user)):
         if user["role"] not in allowed_roles:
@@ -21,7 +23,7 @@ def require_role(allowed_roles: list):
         return user
     return role_checker
 
-#roles route
+#admin role only 
 @router.post("/admin/users",status_code=201)
 def create_user(
     user_data: UserCreate,db: Session = Depends(get_db),
@@ -48,7 +50,6 @@ def create_user(
     db.refresh(account)
     return {"email": new_user.email, "id": new_user.id}
 
-    return {"id": new_user.id, "email": new_user.email, "role":new_user.role}
 
 @router.delete("/admin/users/{user_id}")
 def delete_user(
@@ -83,6 +84,8 @@ def update_user_role(
 
     return {"msg": f"User role updated to {role}"}
 
+
+#analyst role only 
 @router.get("/analytics/transactions")
 def get_transactions(
     min_amount: float = None,
@@ -121,6 +124,8 @@ def get_transactions(
 
     return query.all()
 
+
+#all three roles can access
 @router.get("/users")
 def read_user_data(
     db: Session = Depends(get_db),

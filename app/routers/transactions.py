@@ -11,6 +11,7 @@ from decimal import Decimal
 
 router = APIRouter()
 
+#transaction function
 def create_transaction_service(db: Session, user_id: int, data: TransactionCreate):
 
     # 1. Get sender account
@@ -38,12 +39,12 @@ def create_transaction_service(db: Session, user_id: int, data: TransactionCreat
         if not data.receiver_email:
             raise HTTPException(status_code=400, detail="Receiver email is required")
 
-        # ✅ Step 1: find user by email
+        # Step 1: find user by email
         receiver_user = db.query(User).filter(User.email == data.receiver_email).first()
         if not receiver_user:
             raise HTTPException(status_code=404, detail="Receiver not found")
 
-        # ✅ Step 2: find account using user.id
+        # Step 2: find account using user.id
         receiver_account = db.query(Account).filter(Account.user_id == receiver_user.id).first()
         if not receiver_account:
             raise HTTPException(status_code=404, detail="Receiver account not found")
@@ -60,7 +61,7 @@ def create_transaction_service(db: Session, user_id: int, data: TransactionCreat
 
     # 5. Save transaction
     transaction = Transaction(
-        user_id=account.user_id,  # ✅ FIX: store account.id
+        user_id=account.user_id, 
         receiver_id=receiver_account.id if data.type == "transfer" else None,
         amount=amount,
         type=data.type,
@@ -72,6 +73,8 @@ def create_transaction_service(db: Session, user_id: int, data: TransactionCreat
     db.refresh(transaction)
 
     return transaction
+
+#transaction routes
 
 @router.post("/transactions/")
 def create_transaction(transaction: TransactionCreate,db: Session = Depends(get_db) ,current_user: dict = Depends(require_role(["user"]))):

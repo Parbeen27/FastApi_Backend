@@ -1,8 +1,8 @@
-# Setup Instructions for Finance Backend API
+# Finance Backend API Setup Guide
 
-Follow these steps to set up and run the Finance Backend API project on your local machine.
+This guide explains how to set up and run the Finance Backend API project locally.
 
-## Prerequisites
+## 1. Prerequisites
 
 Before you begin, ensure you have the following installed:
 - **Python 3.8 or higher**: Download from [python.org](https://www.python.org/downloads/).
@@ -16,22 +16,28 @@ git --version
 pip --version
 ```
 
-## Step 1: Clone the Repository
+## 2. Clone the Repository
 
-Clone the project repository from your version control system (e.g., GitHub).
+Clone the project and open the folder:
 
 ```bash
-   git clone https://github.com/Parbeen27/FastApi_Backend
-   cd FastApi_Backend
-   
-   Copy .env.example to .env and optionally change values:
-   cp .env.example .env
+git clone https://github.com/Parbeen27/FastApi_Backend
+cd FastApi_Backend
 ```
 
+## 3. Configure Environment Variables
 
-## Step 2: Create a Virtual Environment
+Create a local `.env` file from the example:
 
-It's recommended to use a virtual environment to isolate project dependencies.
+```bash
+cp .env.example .env
+```
+
+Edit `.env` if you need to update project-specific settings.
+
+## 4. Create a Virtual Environment
+
+Use a virtual environment to isolate project dependencies.
 
 ```bash
 python -m venv venv
@@ -39,70 +45,76 @@ python -m venv venv
 
 ### Activate the Virtual Environment
 
-- **On Windows**:
+- On macOS/Linux:
+  ```bash
+  source venv/bin/activate
+  ```
+- On Windows:
   ```bash
   venv\Scripts\activate
   ```
 
-- **On macOS/Linux**:
-  ```bash
-  source venv/bin/activate
-  ```
+When the environment is active, your prompt should show `(venv)`.
 
-After activation, your command prompt should show `(venv)` at the beginning.
+## 5. Install Dependencies
 
-## Step 3: Install Dependencies
-
-Install the required Python packages listed in `requirements.txt`.
+Install the required Python packages from `requirements.txt`:
 
 ```bash
 pip install -r requirements.txt
+```
 
-or using pip-tools:
+If you use `pip-tools`, you can also run:
+
 ```bash
 pip-sync
 ```
 
-This may take a few minutes depending on your internet connection and system.
+## 6. Seed Example Users (Optional)
 
-## Step 4: Run seed_user.py
-for creating  users for testing
+If the project provides a seed script, run it to create test users:
 
-## Step 5: Run the Server
+```bash
+python seed_user.py
+```
 
-Start the FastAPI server using Uvicorn.
+This step is optional but useful for testing.
+
+## 7. Run the Server
+
+Start the FastAPI server with Uvicorn:
 
 ```bash
 uvicorn main:app --reload
 ```
 
-- `--reload`: Enables auto-reload on code changes (useful for development).
-- The server will start on `http://127.0.0.1:8000` by default.
+- `--reload` reloads the server automatically when code changes.
+- Open the API at `http://127.0.0.1:8000`.
 
-## Step 6: Access the API Documentation
+## 8. Access API Documentation
 
-Once the server is running, open your web browser and navigate to:
+Once the server is running, open your browser and go to:
 
-[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+http://127.0.0.1:8000/docs
 
-This will open the interactive Swagger UI documentation for the API.
+This page shows the interactive API documentation and allows you to test endpoints.
 
-## Troubleshooting
+## 9. Troubleshooting
 
-- **Port already in use**: If port 8000 is occupied, specify a different port:
+- If port `8000` is already in use:
   ```bash
   uvicorn main:app --reload --port 8001
   ```
-
-- **Permission errors on Windows**: Run your command prompt as Administrator.
-
-- **Virtual environment issues**: Ensure you're activating the correct environment. Deactivate with `deactivate` and try again.
-
-- **Dependency installation fails**: Update pip first:
+- If you get permission errors on Windows, run your terminal as Administrator.
+- If the virtual environment is not active, deactivate and reactivate it:
   ```bash
-  pip install --upgrade pip
-  ```
+deactivate
+source venv/bin/activate
+```
+- If dependency installation fails, upgrade pip:
+  ```bash
+pip install --upgrade pip
+```
+- If the server does not start, check `main.py` for syntax issues and make sure dependencies are installed.
 
-- **Server not starting**: Check for syntax errors in `main.py` or missing dependencies.
-
-If you encounter any issues, refer to the main README.md for additional details or check the project documentation.
+If you still have trouble, refer to the project `README.md` for more details.
