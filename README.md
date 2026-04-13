@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # FastApi_Backend
 Backend for financial system using fastApi
 =======
@@ -237,4 +236,3 @@ This project is licensed under the MIT License. See the LICENSE file for details
 ## Author
 
 Parbeen Singh Panwar
->>>>>>> d25fa6a (initial commit)
